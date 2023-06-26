@@ -13,13 +13,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodSense.Application", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodSense.Domain", "src\FoodSense.Domain\FoodSense.Domain.csproj", "{BADD1E59-9420-42B6-B710-D3D69C4EFE48}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{36B880FD-BCA6-4AEE-A75A-E9E95C08F78B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodSense.Tests", "tests\FoodSense.Tests\FoodSense.Tests.csproj", "{824F4248-5285-4B32-B206-DAE36EF8429D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{89142075-DCBA-43E9-BC59-C3C8A72066F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -38,11 +39,19 @@ Global
 		{BADD1E59-9420-42B6-B710-D3D69C4EFE48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BADD1E59-9420-42B6-B710-D3D69C4EFE48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BADD1E59-9420-42B6-B710-D3D69C4EFE48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{824F4248-5285-4B32-B206-DAE36EF8429D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{824F4248-5285-4B32-B206-DAE36EF8429D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{824F4248-5285-4B32-B206-DAE36EF8429D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{824F4248-5285-4B32-B206-DAE36EF8429D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{89142075-DCBA-43E9-BC59-C3C8A72066F9} = {DD894B17-BBA3-4E74-8DC5-DD680CA9E48F}
 		{4D7875A5-9EE2-49B5-BE9A-390B5C94B488} = {DD894B17-BBA3-4E74-8DC5-DD680CA9E48F}
 		{49629ACD-3832-4F37-A075-61938BE25236} = {DD894B17-BBA3-4E74-8DC5-DD680CA9E48F}
 		{BADD1E59-9420-42B6-B710-D3D69C4EFE48} = {DD894B17-BBA3-4E74-8DC5-DD680CA9E48F}
+		{824F4248-5285-4B32-B206-DAE36EF8429D} = {36B880FD-BCA6-4AEE-A75A-E9E95C08F78B}
 	EndGlobalSection
 EndGlobal
