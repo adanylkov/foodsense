@@ -1,6 +1,6 @@
 using FoodSense.Domain.ValueObjects;
 
-namespace Namespace;
+namespace FoodSense.Domain.Entities;
 public class FoodItem
 {
     public required string Name { get; set; }
