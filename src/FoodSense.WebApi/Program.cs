@@ -1,4 +1,5 @@
 using Serilog;
+using FoodSense.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ var logger = new LoggerConfiguration()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.RegisterServices();
+builder.Services.RegisterDbContext(builder.Configuration);
 
 var app = builder.Build();
 
