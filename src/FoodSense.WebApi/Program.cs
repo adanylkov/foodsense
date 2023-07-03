@@ -1,6 +1,7 @@
 using Serilog;
 using FoodSense.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using FoodSense.Infrastructure.Db;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\FoodSense.Application\FoodSense.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+  </ItemGroup>
+
 </Project>

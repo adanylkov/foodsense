@@ -3,28 +3,31 @@ using FoodSense.Domain.Entities;
 using FoodSense.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
-public class FoodDbContext : DbContext
+namespace FoodSense.Infrastructure.Db
 {
-    public DbSet<FoodAggregate> FoodAggregates { get; set; } = null!;
+    public class FoodDbContext : DbContext
+    {
+        public DbSet<FoodAggregate> FoodAggregates { get; set; } = null!;
 
 
-    public FoodDbContext(DbContextOptions<FoodDbContext> options) : base(options)
-    {
-    }
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<FoodAggregate>(fa =>
+        public FoodDbContext(DbContextOptions<FoodDbContext> options) : base(options)
         {
-            fa.HasKey(x => x.Barcode);
-            fa.OwnsMany<FoodItem>("_foodItems", fi =>
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<FoodAggregate>(fa =>
             {
-                fi.OwnsOne(f => f.ExpirationInfo, ei =>
+                fa.HasKey(x => x.Barcode);
+                fa.OwnsMany<FoodItem>("_foodItems", fi =>
                 {
-                    ei.Property(typeof(DateTime), "_expirationDate");
-                    ei.Property(typeof(TimeSpan), "_expirationFromOpened");
+                    fi.OwnsOne(f => f.ExpirationInfo, ei =>
+                    {
+                        ei.Property(typeof(DateTime), "_expirationDate");
+                        ei.Property(typeof(TimeSpan), "_expirationFromOpened");
+                    });
                 });
+                fa.OwnsOne(f => f.Nutrition);
             });
-            fa.OwnsOne(f => f.Nutrition);
-        });
+        }
     }
 }
