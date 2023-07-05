@@ -55,8 +55,13 @@ public class FoodService : IFoodService
         return _foodRepository.GetFoodAggregatesAsync();
     }
 
-    public async Task<FoodAggregate> UpdateFoodAggregateAsync(FoodAggregate food)
+    public async Task<FoodAggregate> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition)
     {
+        var food = new FoodAggregate {
+            Barcode = barcode,
+            Name = Name,
+            Nutrition = Nutrition
+        };
         await _foodRepository.UpdateFoodAggregateAsync(food);
         await _foodRepository.SaveChangesAsync();
 
