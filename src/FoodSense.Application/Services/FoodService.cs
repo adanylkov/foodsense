@@ -45,9 +45,16 @@ public class FoodService : IFoodService
         return Task.FromResult(_foodRepository.GetFoodAggregatesAsync().Result.Where(f => f.GetExpiringItems().Any()));
     }
 
-    public async Task<FoodAggregate> GetFoodAggregateAsync(string barcode)
+    public async Task<FoodAggregate?> GetFoodAggregateAsync(string barcode)
     {
-        return await _foodRepository.GetFoodAggregateAsync(barcode);
+        try
+        {
+            return await _foodRepository.GetFoodAggregateAsync(barcode);
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
     }
 
     public Task<IEnumerable<FoodAggregate>> GetFoodAggregatesAsync()
@@ -55,14 +62,21 @@ public class FoodService : IFoodService
         return _foodRepository.GetFoodAggregatesAsync();
     }
 
-    public async Task<FoodAggregate> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition)
+    public async Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition)
     {
         var food = new FoodAggregate {
             Barcode = barcode,
             Name = Name,
             Nutrition = Nutrition
         };
-        await _foodRepository.UpdateFoodAggregateAsync(food);
+        try
+        {
+            await _foodRepository.UpdateFoodAggregateAsync(food);
+        }
+        catch (ArgumentException)
+        {
+            return null;
+        }
         await _foodRepository.SaveChangesAsync();
 
         return food;
