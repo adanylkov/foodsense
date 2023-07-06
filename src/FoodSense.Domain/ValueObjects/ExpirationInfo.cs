@@ -5,16 +5,16 @@ public record class ExpirationInfo
     private readonly TimeSpan _expirationFromOpened;
     private readonly IDateTimeProvider _dateTimeProvider;
 
-    public ExpirationInfo(TimeSpan expirationFromOpened, DateTime expirationDate)
+
+    private ExpirationInfo(TimeSpan expirationFromOpened, DateTime expirationDate)
     {
         _expirationFromOpened = expirationFromOpened;
         _expirationDate = expirationDate;
-        // TODO Use DI for IDatetimeProvider that is compatible with the database
+        _dateTimeProvider ??= new DateTimeProvider();
     }
     public ExpirationInfo(TimeSpan expirationFromOpened, DateTime expirationDate, IDateTimeProvider dateTimeProvider)
+    : this(expirationFromOpened, expirationDate)
     {
-        _expirationFromOpened = expirationFromOpened;
-        _expirationDate = expirationDate;
         _dateTimeProvider = dateTimeProvider;
     }
 
