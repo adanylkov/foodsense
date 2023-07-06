@@ -1,15 +1,29 @@
 ﻿using FoodSense.Domain;
 using FoodSense.Domain.Aggregates;
+using FoodSense.Domain.Entities;
 using FoodSense.Domain.ValueObjects;
 
 namespace FoodSense.Application;
 public class FoodService : IFoodService
 {
     private readonly IFoodRepository _foodRepository;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
-    public FoodService(IFoodRepository foodRepository)
+    public FoodService(IFoodRepository foodRepository, IDateTimeProvider dateTimeProvider)
     {
         _foodRepository = foodRepository;
+        _dateTimeProvider = dateTimeProvider;
+    }
+
+    public async Task AddFoodItemAsync(string barcode, TimeSpan expirationFromOpened, DateTime expirationDate)
+    {
+        var foodAggregate = await _foodRepository.GetFoodAggregateAsync(barcode);
+        var foodItem = new FoodItem
+        {
+            ExpirationInfo = new ExpirationInfo(expirationFromOpened, expirationDate, _dateTimeProvider)
+        };
+        foodAggregate.AddItem(foodItem);
+        await _foodRepository.SaveChangesAsync();
     }
 
     public async Task<FoodAggregate> CreateFoodAggregateAsync(string Name, string Barcode, Nutrition Nutrition)

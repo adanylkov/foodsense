@@ -27,6 +27,7 @@ namespace FoodSense.Infrastructure.Db
                     });
                 });
                 fa.OwnsOne(f => f.Nutrition);
+                fa.Ignore(f => f.FoodItems);
             });
         }
     }

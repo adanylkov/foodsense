@@ -9,6 +9,7 @@ public class FoodAggregate
     public required string Name { get; set; }
     public required string Barcode { get; init; }
     public required Nutrition Nutrition { get; set; }
+    public IReadOnlyList<FoodItem> FoodItems => _foodItems.AsReadOnly();
     public void AddItem(FoodItem foodItem)
     {
         _foodItems.Add(foodItem);

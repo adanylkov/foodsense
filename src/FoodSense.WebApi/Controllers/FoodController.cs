@@ -1,4 +1,6 @@
 ﻿using FoodSense.Application;
+using FoodSense.Domain.Entities;
+using FoodSense.Domain.ValueObjects;
 using FoodSense.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,6 +61,17 @@ namespace FoodSense.WebApi.Controllers
                 return NotFound($"Food aggregate with barcode {barcode} not found.");
             }
             await _foodService.UpdateFoodAggregateAsync(barcode, request.Name, request.Nutrition);
+            return Ok();
+        }
+        [HttpPost("{barcode}/items")]
+        public async Task<IActionResult> AddFoodItemAsync(string barcode, [FromBody] AddFoodItemRequest request)
+        {
+            var foodAggregate = await _foodService.GetFoodAggregateAsync(barcode);
+            if (foodAggregate == null)
+            {
+                return NotFound($"Food aggregate with barcode {barcode} not found.");
+            }
+            await _foodService.AddFoodItemAsync(barcode, request.ExpirationFromOpened, request.ExpirationDate);
             return Ok();
         }
     }
