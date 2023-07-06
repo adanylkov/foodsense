@@ -35,6 +35,11 @@ public class FoodRepository : IFoodRepository
         return Task.FromResult(_dbContext.FoodAggregates.AsEnumerable());
     }
 
+    public async Task<IEnumerable<FoodAggregate>> GetFoodAggregatesByPredicateAsync(Func<FoodAggregate, bool> predicate)
+    {
+        return await Task.Run(() => _dbContext.FoodAggregates.Where(predicate).ToArray());
+    }
+
     public async Task SaveChangesAsync()
     {
         await _dbContext.SaveChangesAsync();

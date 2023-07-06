@@ -47,16 +47,14 @@ public class FoodService : IFoodService
         await _foodRepository.SaveChangesAsync();
     }
 
-    public Task<IEnumerable<FoodAggregate>> GetExpiredFoodAggregateAsync()
+    public async Task<IEnumerable<FoodAggregate>> GetExpiredFoodAggregateAsync()
     {
-        // TODO Search in database instead of in memory
-        return Task.FromResult(_foodRepository.GetFoodAggregatesAsync().Result.Where(f => f.GetExpiredItems().Any()));
+        return await _foodRepository.GetFoodAggregatesByPredicateAsync(f => f.GetExpiredItems().Any());
     }
 
-    public Task<IEnumerable<FoodAggregate>> GetExpiringSoonFoodAggregateAsync()
+    public async Task<IEnumerable<FoodAggregate>> GetExpiringSoonFoodAggregateAsync()
     {
-        // TODO Search in database instead of in memory
-        return Task.FromResult(_foodRepository.GetFoodAggregatesAsync().Result.Where(f => f.GetExpiringItems().Any()));
+        return await _foodRepository.GetFoodAggregatesByPredicateAsync(f => f.GetExpiringItems().Any());
     }
 
     public async Task<FoodAggregate?> GetFoodAggregateAsync(string barcode)

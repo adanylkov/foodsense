@@ -9,4 +9,5 @@ public interface IFoodRepository
     Task UpdateFoodAggregateAsync(FoodAggregate foodAggregate);
     Task DeleteFoodAggregateAsync(string barcode);
     Task SaveChangesAsync();
+    Task<IEnumerable<FoodAggregate>> GetFoodAggregatesByPredicateAsync(Func<FoodAggregate, bool> predicate);
 }
