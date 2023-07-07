@@ -1,6 +1,4 @@
 ﻿using FoodSense.Application;
-using FoodSense.Domain.Entities;
-using FoodSense.Domain.ValueObjects;
 using FoodSense.WebApi.DTOs;
 using Microsoft.AspNetCore.Mvc;
 

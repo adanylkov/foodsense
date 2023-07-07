@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
@@ -46,6 +46,6 @@ static void ApplyMigrations(WebApplicationBuilder builder, Serilog.Core.Logger l
         {
             logger.Information("Applying migration {Migration}", migration);
         }
-        dbContext.Database.Migrate();
+        // dbContext.Database.Migrate();
     }
 }

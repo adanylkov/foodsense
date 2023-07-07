@@ -1,5 +1,4 @@
 using FoodSense.Domain.Aggregates;
-using FoodSense.Domain.Entities;
 using FoodSense.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,26 +7,19 @@ namespace FoodSense.Infrastructure.Db
     public class FoodDbContext : DbContext
     {
         public DbSet<FoodAggregate> FoodAggregates { get; set; } = null!;
-
-
-        public FoodDbContext(DbContextOptions<FoodDbContext> options) : base(options)
-        {
-        }
+        public FoodDbContext(DbContextOptions<FoodDbContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FoodAggregate>(fa =>
             {
                 fa.HasKey(x => x.Barcode);
-                fa.OwnsMany<FoodItem>("_foodItems", fi =>
+                fa.OwnsMany<ExpirationInfo>("_expirationInfos", fi =>
                 {
-                    fi.OwnsOne(f => f.ExpirationInfo, ei =>
-                    {
-                        ei.Property(typeof(DateTime), "_expirationDate");
-                        ei.Property(typeof(TimeSpan), "_expirationFromOpened");
-                    });
+                    fi.Property(typeof(DateTime), "_expirationDate");
+                    fi.Property(typeof(TimeSpan), "_expirationFromOpened");
                 });
                 fa.OwnsOne(f => f.Nutrition);
-                fa.Ignore(f => f.FoodItems);
+                fa.Ignore(f => f.ExpirationInfos);
             });
         }
     }

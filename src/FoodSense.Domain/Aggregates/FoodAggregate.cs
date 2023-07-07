@@ -1,29 +1,28 @@
-using FoodSense.Domain.Entities;
 using FoodSense.Domain.ValueObjects;
 
 namespace FoodSense.Domain.Aggregates;
 
 public class FoodAggregate
 {
-    private readonly List<FoodItem> _foodItems = new();
+    private readonly List<ExpirationInfo> _expirationInfos = new();
     public required string Name { get; set; }
     public required string Barcode { get; init; }
     public required Nutrition Nutrition { get; set; }
-    public IReadOnlyList<FoodItem> FoodItems => _foodItems.AsReadOnly();
-    public void AddItem(FoodItem foodItem)
+    public IReadOnlyList<ExpirationInfo> ExpirationInfos => _expirationInfos.AsReadOnly();
+    public void AddItem(ExpirationInfo expirationInfo)
     {
-        _foodItems.Add(foodItem);
+        _expirationInfos.Add(expirationInfo);
     }
-    public void RemoveItem(FoodItem foodItem)
+    public void RemoveItem(ExpirationInfo expirationInfo)
     {
-        _foodItems.Remove(foodItem);
+        _expirationInfos.Remove(expirationInfo);
     }
-    public IReadOnlyCollection<FoodItem> GetExpiredItems()
+    public IReadOnlyCollection<ExpirationInfo> GetExpiredItems()
     {
-        return _foodItems.Where(x => x.ExpirationInfo.IsExpired).ToArray();
+        return _expirationInfos.Where(x => x.IsExpired).ToArray();
     }
-    public IReadOnlyCollection<FoodItem> GetExpiringItems()
+    public IReadOnlyCollection<ExpirationInfo> GetExpiringItems()
     {
-        return _foodItems.Where(x => x.ExpirationInfo.IsExpiringSoon).ToArray();
+        return _expirationInfos.Where(x => x.IsExpiringSoon).ToArray();
     }
 }

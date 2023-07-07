@@ -1,6 +1,5 @@
 ﻿using FoodSense.Domain;
 using FoodSense.Domain.Aggregates;
-using FoodSense.Domain.Entities;
 using FoodSense.Domain.ValueObjects;
 
 namespace FoodSense.Application;
@@ -18,11 +17,8 @@ public class FoodService : IFoodService
     public async Task AddFoodItemAsync(string barcode, TimeSpan expirationFromOpened, DateTime expirationDate)
     {
         var foodAggregate = await _foodRepository.GetFoodAggregateAsync(barcode);
-        var foodItem = new FoodItem
-        {
-            ExpirationInfo = new ExpirationInfo(expirationFromOpened, expirationDate, _dateTimeProvider)
-        };
-        foodAggregate.AddItem(foodItem);
+        var expirationInfo = new ExpirationInfo(expirationFromOpened, expirationDate, _dateTimeProvider);
+        foodAggregate.AddItem(expirationInfo);
         await _foodRepository.SaveChangesAsync();
     }
 
