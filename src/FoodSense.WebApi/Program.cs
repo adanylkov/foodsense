@@ -2,6 +2,7 @@ using Serilog;
 using FoodSense.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using FoodSense.Infrastructure.Db;
+using FoodSense.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.RegisterServices();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.RegisterDbContext(builder.Configuration);
 
 ApplyMigrations(builder, logger);
@@ -29,8 +31,10 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().Build());
 
 app.Run();
 

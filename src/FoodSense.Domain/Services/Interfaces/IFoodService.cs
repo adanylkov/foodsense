@@ -6,8 +6,8 @@ public interface IFoodService
 {
     Task<FoodAggregate?> GetFoodAggregateAsync(string barcode);
     Task<IEnumerable<FoodAggregate>> GetFoodAggregatesAsync();
-    Task<FoodAggregate> CreateFoodAggregateAsync(string Name, string Barcode, Nutrition Nutrition);
-    Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition);
+    Task<FoodAggregate> CreateFoodAggregateAsync(string Name, string Barcode, Nutrition Nutrition, string Image);
+    Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition, string Image);
     Task DeleteFoodAggregateAsync(string barcode);
     Task<IEnumerable<FoodAggregate>> GetExpiringSoonFoodAggregateAsync();
     Task<IEnumerable<FoodAggregate>> GetExpiredFoodAggregateAsync();

@@ -8,6 +8,7 @@ public class FoodAggregate
     public required string Name { get; set; }
     public required string Barcode { get; init; }
     public required Nutrition Nutrition { get; set; }
+    public required string Image { get; set; }
     public IReadOnlyList<ExpirationInfo> ExpirationInfos => _expirationInfos.AsReadOnly();
     public void AddItem(ExpirationInfo expirationInfo)
     {

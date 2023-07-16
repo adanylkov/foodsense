@@ -22,13 +22,14 @@ public class FoodService : IFoodService
         await _foodRepository.SaveChangesAsync();
     }
 
-    public async Task<FoodAggregate> CreateFoodAggregateAsync(string Name, string Barcode, Nutrition Nutrition)
+    public async Task<FoodAggregate> CreateFoodAggregateAsync(string Name, string barcode, Nutrition nutrition, string image)
     {
         var food = new FoodAggregate
         {
             Name = Name,
-            Barcode = Barcode,
-            Nutrition = Nutrition
+            Barcode = barcode,
+            Nutrition = nutrition,
+            Image = image,
         };
 
         await _foodRepository.AddFoodAggregateAsync(food);
@@ -70,12 +71,13 @@ public class FoodService : IFoodService
         return _foodRepository.GetFoodAggregatesAsync();
     }
 
-    public async Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string Name, Nutrition Nutrition)
+    public async Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string name, Nutrition nutrition, string image)
     {
         var food = new FoodAggregate {
             Barcode = barcode,
-            Name = Name,
-            Nutrition = Nutrition
+            Name = name,
+            Nutrition = nutrition,
+            Image = image,
         };
         try
         {

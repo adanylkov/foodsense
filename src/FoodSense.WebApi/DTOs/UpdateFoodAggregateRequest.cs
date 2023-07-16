@@ -7,5 +7,6 @@ namespace FoodSense.WebApi.DTOs
     {
         public required string Name { get; init; }
         public required Nutrition Nutrition { get; init; }
+        public required IFormFile Image { get; init; }
     }
 }

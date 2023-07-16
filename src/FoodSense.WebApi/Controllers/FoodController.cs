@@ -1,5 +1,6 @@
 ﻿using FoodSense.Application;
 using FoodSense.WebApi.DTOs;
+using FoodSense.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodSense.WebApi.Controllers
@@ -9,10 +10,12 @@ namespace FoodSense.WebApi.Controllers
     public class FoodController : ControllerBase
     {
         private readonly IFoodService _foodService;
+        private readonly IImageService _imageService;
 
-        public FoodController(IFoodService foodService)
+        public FoodController(IFoodService foodService, IImageService imageService)
         {
             _foodService = foodService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -28,16 +31,27 @@ namespace FoodSense.WebApi.Controllers
             return Ok(foodAggregate);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateFoodAggregateAsync([FromBody] CreateFoodAggregateRequest request)
+        public async Task<IActionResult> CreateFoodAggregateAsync([FromForm] CreateFoodAggregateRequest request)
         {
             var existingFoodAggregate = await _foodService.GetFoodAggregateAsync(request.Barcode);
             if (existingFoodAggregate != null)
             {
                 return BadRequest($"Food aggregate with barcode {request.Barcode} already exists.");
             }
-            var foodAggregate = await _foodService.CreateFoodAggregateAsync(request.Name, request.Barcode, request.Nutrition);
-            return Ok(foodAggregate);
-            // return CreatedAtAction(nameof(GetFoodAggregateAsync), new { barcode = foodAggregate.Barcode }, foodAggregate);
+            try
+            {
+                var filename = await _imageService.SaveImage(request.Image);
+                var foodAggregate = await _foodService.CreateFoodAggregateAsync(request.Name, request.Barcode, request.Nutrition, filename);
+                return Ok(foodAggregate);
+            }
+            catch (NotSupportedException)
+            {
+                return BadRequest("File type not supported.");
+            }
+            catch (ArgumentNullException)
+            {
+                return BadRequest("Form file cannot be null.");
+            }
         }
         [HttpDelete("{barcode}")]
         public async Task<IActionResult> DeleteFoodAggregateAsync(string barcode)
@@ -58,8 +72,20 @@ namespace FoodSense.WebApi.Controllers
             {
                 return NotFound($"Food aggregate with barcode {barcode} not found.");
             }
-            await _foodService.UpdateFoodAggregateAsync(barcode, request.Name, request.Nutrition);
-            return Ok();
+            try
+            {
+                var filename = await _imageService.SaveImage(request.Image);
+                await _foodService.UpdateFoodAggregateAsync(barcode, request.Name, request.Nutrition, filename);
+                return Ok(foodAggregate);
+            }
+            catch (NotSupportedException)
+            {
+                return BadRequest("File type not supported.");
+            }
+            catch (ArgumentNullException)
+            {
+                return BadRequest("Form file cannot be null.");
+            }
         }
         [HttpPost("{barcode}/items")]
         public async Task<IActionResult> AddFoodItemAsync(string barcode, [FromBody] AddFoodItemRequest request)
