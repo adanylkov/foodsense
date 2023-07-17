@@ -6,8 +6,8 @@ import {
 import { AddFood } from './Pages/AddFood';
 import React from 'react';
 import { Notifications } from '@mantine/notifications';
-import { FoodPage } from './Pages/FoodPage';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { FoodPage } from './Pages/FoodPage';
 
 const router = createBrowserRouter([
     {
