@@ -1,4 +1,5 @@
 import { Card, Image, Text, Badge, Group, Accordion, Flex } from '@mantine/core';
+import { api_path } from '../api';
 
 interface FoodElementProps {
     name: string;
@@ -25,7 +26,7 @@ export const FoodElement = (props: FoodElementProps) => {
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
                 <Image
-                    src={`http://localhost:5239/images/${props.imageUrl}`}
+                    src={`${api_path}/images/${props.imageUrl}`}
                     height={160}
                 />
             </Card.Section>

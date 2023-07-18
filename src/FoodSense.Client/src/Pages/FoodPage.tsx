@@ -1,11 +1,12 @@
 import { Container, SimpleGrid } from "@mantine/core"
 import { useQuery } from "@tanstack/react-query"
 import { FoodElement } from "./FoodElement";
+import { api_path } from "../api";
 
 export const FoodPage = () => {
 
     const { data, error, isLoading } = useQuery(["food"], async () => {
-        const response = await fetch("http://localhost:5239/api/Food")
+        const response = await fetch(`${api_path}/api/Food`)
         return response.json()
     });
 

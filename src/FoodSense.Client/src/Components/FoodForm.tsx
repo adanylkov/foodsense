@@ -2,6 +2,7 @@ import { Button, Center, Container, FileButton, Flex, Grid, Group, NumberInput, 
 import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react'
+import { api_path } from '../api';
 
 interface FoodFormElementProps {
     barcode: string;
@@ -63,7 +64,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
         formData.append('Nutrition.Calories', value.calories.toString());
         formData.append('Nutrition.Fat', value.fat.toString());
 
-        const response = await fetch('https://192.168.0.157/api/Food', {
+        const response = await fetch(`${api_path}/api/Food`, {
             method: 'POST',
             body: formData,
         });
