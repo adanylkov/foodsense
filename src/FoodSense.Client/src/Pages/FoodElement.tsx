@@ -1,5 +1,6 @@
 import { Card, Image, Text, Badge, Group, Accordion, Flex } from '@mantine/core';
 import { api_path } from '../api';
+import { IconFlame, IconDroplet, IconGrowth, IconMeat } from '@tabler/icons-react';
 
 interface FoodElementProps {
     name: string;
@@ -43,18 +44,22 @@ export const FoodElement = (props: FoodElementProps) => {
                     <Accordion.Control>Macronutrients</Accordion.Control>
                     <Accordion.Panel>
                         <Flex gap={'xs'}>
+                            <IconFlame />
                             <Text weight={500}>Calories:</Text>
                             <Text>{props.nutrition.calories}</Text>
                         </Flex>
                         <Flex gap={'xs'}>
+                            <IconDroplet />
                             <Text weight={500}>Fat:</Text>
                             <Text>{props.nutrition.fat}</Text>
                         </Flex>
                         <Flex gap={'xs'}>
+                            <IconGrowth />
                             <Text weight={500}>Carbohydrates:</Text>
                             <Text>{props.nutrition.carbohydrates}</Text>
                         </Flex>
                         <Flex gap={'xs'}>
+                            <IconMeat />
                             <Text weight={500}>Proteins:</Text>
                             <Text>{props.nutrition.protein}</Text>
                         </Flex>
