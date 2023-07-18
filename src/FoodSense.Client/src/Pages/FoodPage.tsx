@@ -9,7 +9,7 @@ export const FoodPage = () => {
         return response.json()
     });
 
-    const foodElements = data?.map((f: any) => <FoodElement name={f.name}
+    const foodElements = data?.map((f: any) => <FoodElement key={f.barcode} name={f.name}
         imageUrl={f.image}
         nutrition={f.nutrition} />);
 
