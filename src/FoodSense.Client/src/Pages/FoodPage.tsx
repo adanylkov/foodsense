@@ -1,18 +1,36 @@
 import { Container, SimpleGrid } from "@mantine/core"
-import { useQuery } from "@tanstack/react-query"
-import { FoodElement } from "./FoodElement";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { FoodElement, FoodElementProps } from "./FoodElement";
 import { api_path } from "../api";
 
 export const FoodPage = () => {
 
-    const { data, error, isLoading } = useQuery(["food"], async () => {
+    const queryClient = useQueryClient();
+    const { data, error, isLoading } = useQuery<FoodElementProps[]>(["food"], async () => {
         const response = await fetch(`${api_path}/api/Food`)
-        return response.json()
+        return await response.json();
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: async (barcode: string) => {
+            await fetch(`${api_path}/api/Food/${barcode}`, {
+                method: 'DELETE'
+            });
+        },
+        onSuccess(data, barcode, context) {
+            queryClient.setQueryData<FoodElementProps[]>(["food"], (old) => {
+                console.log(barcode);
+                return old?.filter(f => f.barcode !== barcode);
+            });
+        },
     });
 
     const foodElements = data?.map((f: any) => <FoodElement key={f.barcode} name={f.name}
         imageUrl={f.image}
-        nutrition={f.nutrition} />);
+        nutrition={f.nutrition}
+        barcode={f.barcode}
+        onDelete={deleteMutation.mutate}
+        isLoading={deleteMutation.isLoading} />);
 
     return (
         <Container>

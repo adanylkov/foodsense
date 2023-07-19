@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon } from '@mantine/core';
+import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader } from '@mantine/core';
 import { api_path } from '../api';
 import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
 
@@ -59,21 +59,29 @@ const NutritionInfo = (props: NutritionInfoProps) => {
     )
 }
 
-const ControlMenu = () => {
+interface ControlMenuProps {
+    onDelete: (barcode: string) => void;
+    barcode: string;
+}
+
+const ControlMenu = (props: ControlMenuProps) => {
     return (
         <Menu>
             <Menu.Target>
-                <ActionIcon variant="subtle"><IconSettings size="1.5rem" /></ActionIcon>
+                <ActionIcon variant="subtle">{<IconSettings size="1.5rem" />}</ActionIcon>
             </Menu.Target>
 
             <Menu.Dropdown>
                 <Menu.Label>Controls</Menu.Label>
-                <Menu.Item icon={<IconTrash size={14} color='red' />}>Delete food</Menu.Item>
+                <Menu.Item icon={<IconTrash size={14} color='red' />} onClick={() => props.onDelete(props.barcode)}>Delete food</Menu.Item>
             </Menu.Dropdown>
         </Menu>
     )
 }
-interface FoodElementProps {
+export interface FoodElementProps {
+    barcode: string;
+    onDelete: (barcode: string) => void;
+    isLoading: boolean;
     name: string;
     imageUrl: string;
     nutrition: {
@@ -105,7 +113,7 @@ export const FoodElement = (props: FoodElementProps) => {
 
             <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>{props.name}</Text>
-                <ControlMenu />
+                { props.isLoading ? <Loader size="md" /> : <ControlMenu onDelete={props.onDelete} barcode={props.barcode} />} 
             </Group>
 
             <NutritionInfo {...props.nutrition} />
