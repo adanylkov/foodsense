@@ -9,7 +9,7 @@ interface BarcodeScannerProps {
 }
 
 export const BarcodeScanner = (props: BarcodeScannerProps) => {
-    const [scanning, setScanning] = useState(false); // toggleable state for "should render scanner"
+    const [scanning, setScanning] = useState(true); // toggleable state for "should render scanner"
     const [cameraId, setCameraId] = useState(null); // id of the active camera device
     const [cameraError, setCameraError] = useState(null); // error message from failing to access the camera
     const [cameras, setCameras] = useState(Array<MediaDeviceInfo>); // list of available cameras
