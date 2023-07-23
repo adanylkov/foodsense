@@ -1,4 +1,4 @@
-import { Container, SimpleGrid } from "@mantine/core"
+import { Container, Paper, SimpleGrid, Skeleton, Text } from "@mantine/core"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { FoodElement, FoodElementProps } from "./FoodElement";
 import { api_path } from "../api";
@@ -32,6 +32,11 @@ export const FoodPage = () => {
         onDelete={deleteMutation.mutate}
         isLoading={deleteMutation.isLoading} />);
 
+    const loadingSkeletons = [...Array(10)].map((_, i) =>
+        <Paper key={i}>
+            <Skeleton height={200} />
+        </Paper>);
+
     return (
         <Container>
             <SimpleGrid cols={3} spacing="md" breakpoints={[
@@ -39,7 +44,7 @@ export const FoodPage = () => {
                 { maxWidth: '48rem', cols: 2, spacing: 'sm' },
                 { maxWidth: '36rem', cols: 1, spacing: 'sm' },
             ]}>
-                {isLoading && <div>Loading...</div>}
+                {isLoading && loadingSkeletons}
                 {data && foodElements}
             </SimpleGrid>
         </Container>
