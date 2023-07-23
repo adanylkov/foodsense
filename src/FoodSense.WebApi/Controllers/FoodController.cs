@@ -61,6 +61,7 @@ namespace FoodSense.WebApi.Controllers
             {
                 return NotFound($"Food aggregate with barcode {barcode} not found.");
             }
+            await _imageService.DeleteImage(foodAggregate.Image);
             await _foodService.DeleteFoodAggregateAsync(barcode);
             return Ok();
         }

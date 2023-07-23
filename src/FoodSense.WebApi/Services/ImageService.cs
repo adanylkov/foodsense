@@ -21,9 +21,15 @@ public class ImageService : IImageService
         await formFile.CopyToAsync(stream);
         return filename;
     }
+    public async Task DeleteImage(string filename)
+    {
+        var path = Path.Combine(_webHostEnvironment.WebRootPath, "images", filename);
+        await Task.Run(() => File.Delete(path));
+    }
 }
 
 public interface IImageService
 {
     Task<string> SaveImage(IFormFile formFile);
+    Task DeleteImage(string filename);
 }
