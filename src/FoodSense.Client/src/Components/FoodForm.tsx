@@ -105,6 +105,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
                                 label='Calories'
                                 hideControls={true}
                                 withAsterisk
+                                precision={2}
                                 required
                                 {...form.getInputProps('calories')}
                             />
@@ -112,6 +113,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
                                 label='Fat'
                                 hideControls={true}
                                 withAsterisk
+                                precision={2}
                                 required
                                 {...form.getInputProps('fat')}
                             />
@@ -119,6 +121,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
                                 label='Carbohydrates'
                                 hideControls={true}
                                 withAsterisk
+                                precision={2}
                                 required
                                 {...form.getInputProps('carbohydrates')}
                             />
@@ -126,6 +129,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
                                 label='Protein'
                                 hideControls={true}
                                 withAsterisk
+                                precision={2}
                                 required
                                 {...form.getInputProps('protein')}
                             />
@@ -141,26 +145,31 @@ export const FoodForm = (props: FoodFormElementProps) => {
                             <NumberInput
                                 label='Sodium'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('sodium')}
                             />
                             <NumberInput
                                 label='Sugar'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('sugar')}
                             />
                             <NumberInput
                                 label='Fiber'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('fiber')}
                             />
                             <NumberInput
                                 label='Cholesterol'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('cholesterol')}
                             />
                             <NumberInput
                                 label='Potassium'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('potassium')}
                             />
                         </SimpleGrid>
@@ -175,16 +184,19 @@ export const FoodForm = (props: FoodFormElementProps) => {
                             <NumberInput
                                 label='Saturated fat'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('saturatedFat')}
                             />
                             <NumberInput
                                 label='Trans fat'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('transFat')}
                             />
                             <NumberInput
                                 label='Unsaturated fat'
                                 hideControls={true}
+                                precision={2}
                                 {...form.getInputProps('unsaturatedFat')}
                             />
                         </SimpleGrid>
