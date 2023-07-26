@@ -1,6 +1,6 @@
 import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader } from '@mantine/core';
 import { api_path } from '../api';
-import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash } from '@tabler/icons-react';
+import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconSalt, IconCube, IconActivityHeartbeat, IconPizza, IconCheese, IconFish } from '@tabler/icons-react';
 
 interface NutritionInfoProps {
     calories: number;
@@ -48,12 +48,49 @@ const NutritionInfo = (props: NutritionInfoProps) => {
 
             <Accordion.Item value="micronutrients">
                 <Accordion.Control>Micronutrients</Accordion.Control>
-                <Accordion.Panel>TODO</Accordion.Panel>
+                <Accordion.Panel>
+                    <Flex gap={'xs'}>
+                        <IconSalt />
+                        <Text weight={500}>Sodium:</Text>
+                        <Text>{props.sodium}</Text>
+                    </Flex>
+                    <Flex gap={'xs'}>
+                        <IconCube />
+                        <Text weight={500}>Sugar:</Text>
+                        <Text>{props.sugar}</Text>
+                    </Flex>
+                    <Flex gap={'xs'}>
+                        <IconGrowth />
+                        <Text weight={500}>Fiber</Text>
+                        <Text>{props.fiber}</Text>
+                    </Flex>
+                    <Flex gap={'xs'}>
+                        <IconActivityHeartbeat />
+                        <Text weight={500}>Cholesterol:</Text>
+                        <Text>{props.cholesterol}</Text>
+                    </Flex>
+                </Accordion.Panel>
             </Accordion.Item>
 
-            <Accordion.Item value="other">
-                <Accordion.Control>Other</Accordion.Control>
-                <Accordion.Panel>TODO</Accordion.Panel>
+            <Accordion.Item value="fats">
+                <Accordion.Control>Fats</Accordion.Control>
+                <Accordion.Panel>
+                    <Flex gap={'xs'}>
+                        <IconCheese />
+                        <Text weight={500}>Saturated Fat:</Text>
+                        <Text>{props.saturatedFat}</Text>
+                    </Flex>
+                    <Flex gap={'xs'}>
+                        <IconPizza />
+                        <Text weight={500}>Trans Fat:</Text>
+                        <Text>{props.transFat}</Text>
+                    </Flex>
+                    <Flex gap={'xs'}>
+                        <IconFish />
+                        <Text weight={500}>Unsaturated Fat:</Text>
+                        <Text>{props.unsaturatedFat}</Text>
+                    </Flex>
+                </Accordion.Panel>
             </Accordion.Item>
         </Accordion>
     )
