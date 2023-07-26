@@ -90,7 +90,7 @@ export const BarcodeScanner = (props: BarcodeScannerProps) => {
 
 
     return (
-        <Container ref={scannerRef} style={{ position: 'relative', height: 480 }} onClick={() => setScanning(true)}>
+        <Container ref={scannerRef} style={{ position: 'relative', height: 480 }} onClick={() => setScanning(prev => !prev)}>
             <video style={{ position: 'absolute', border: '3px solid red', left: '0px', top: '0px', height: 480 }} />
             <canvas className="drawingBuffer" style={{
                 position: 'absolute',
