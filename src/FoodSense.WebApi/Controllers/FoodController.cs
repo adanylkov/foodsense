@@ -96,7 +96,8 @@ namespace FoodSense.WebApi.Controllers
             {
                 return NotFound($"Food aggregate with barcode {barcode} not found.");
             }
-            await _foodService.AddFoodItemAsync(barcode, request.ExpirationFromOpened, request.ExpirationDate);
+            var timespan = TimeSpan.FromHours(request.ExpirationFromOpened);
+            await _foodService.AddFoodItemAsync(barcode, timespan, request.ExpirationDate);
             return Ok();
         }
     }
