@@ -3,6 +3,7 @@ import { useForm } from '@mantine/form';
 import { notifications } from '@mantine/notifications';
 import React from 'react'
 import { api_path } from '../api';
+import { useNavigate } from 'react-router-dom';
 
 interface FoodFormElementProps {
     barcode: string;
@@ -27,6 +28,8 @@ interface FoodFormProps {
 }
 
 export const FoodForm = (props: FoodFormElementProps) => {
+
+    const navigate = useNavigate();
 
     const form = useForm({
         initialValues: {
@@ -70,6 +73,7 @@ export const FoodForm = (props: FoodFormElementProps) => {
         });
 
         sendNotification(response.status, await response.text());
+        navigate('/');
     }
     return (
         <form onSubmit={form.onSubmit((value) => handleFormSubmit(value))}>
