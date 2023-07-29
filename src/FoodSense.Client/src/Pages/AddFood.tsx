@@ -7,14 +7,7 @@ import { AddExpiration } from './AddExpiration';
 import { Center, Loader } from '@mantine/core';
 
 export const AddFood = () => {
-
-  const [showScanner, setShowScanner] = useState(false);
   const [barcode, setBarcode] = useState('');
-
-  const onDetected = (result: string) => {
-    setShowScanner(false);
-    setBarcode(result);
-  }
 
   const { isLoading, isError } = useQuery(["food", barcode], {
     enabled: !!barcode,
@@ -37,5 +30,5 @@ export const AddFood = () => {
       </Center>
     )
   }
-  return <BarcodeScanner onDetected={onDetected} />
+  return <BarcodeScanner onDetected={setBarcode} />
 }
