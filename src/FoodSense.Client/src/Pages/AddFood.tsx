@@ -9,21 +9,25 @@ import { Center, Loader } from '@mantine/core';
 export const AddFood = () => {
   const [barcode, setBarcode] = useState('');
 
-  const { isLoading, isError } = useQuery(["food", barcode], {
+  const { isLoading, isError, data } = useQuery(["food", barcode], {
     enabled: !!barcode,
     queryFn: async () => {
       const response = await fetch(`${api_path}/api/Food/${barcode}`);
-      return await response.json();
-    }
+      if (response.status === 200) {
+        return await response.json();
+      }
+      return null;
+    },
+    retry: false,
   });
 
-  if (!isLoading && !isError && barcode) {
+  if (!isLoading && data !== null && barcode) {
     return <AddExpiration barcode={barcode} />
   }
-  else if (!isLoading && isError && barcode) {
+  else if (!isLoading && data === null && barcode) {
     return <FoodForm barcode={barcode} />
   }
-  else if (isLoading && barcode) {
+  else if (barcode) {
     return (
       <Center h={'100vh'}>
         <Loader />
