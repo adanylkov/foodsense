@@ -17,15 +17,16 @@ const router = createBrowserRouter([
     {
         path: "/",
         element: <FoodPage />
-    }]);
+    },
+]);
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-    <QueryClientProvider client={queryClient}>
-        <React.StrictMode>
+    <React.StrictMode>
+        <QueryClientProvider client={queryClient}>
             <Notifications />
             <RouterProvider router={router} />
-        </React.StrictMode>
-    </QueryClientProvider>
+        </QueryClientProvider>
+    </React.StrictMode>
 );
