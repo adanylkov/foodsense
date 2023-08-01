@@ -2,6 +2,7 @@ import { Container, Paper, SimpleGrid, Skeleton, Text } from "@mantine/core"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { FoodElement, FoodElementProps } from "./FoodElement";
 import { api_path } from "../api";
+import { FloatingButton } from "../Components/FloatingButton";
 
 export const FoodPage = () => {
 
@@ -19,7 +20,6 @@ export const FoodPage = () => {
         },
         onSuccess(data, barcode, context) {
             queryClient.setQueryData<FoodElementProps[]>(["food"], (old) => {
-                console.log(barcode);
                 return old?.filter(f => f.barcode !== barcode);
             });
         },
@@ -38,15 +38,18 @@ export const FoodPage = () => {
         </Paper>);
 
     return (
-        <Container>
-            <SimpleGrid cols={3} spacing="md" breakpoints={[
-                { maxWidth: '62rem', cols: 3, spacing: 'md' },
-                { maxWidth: '48rem', cols: 2, spacing: 'sm' },
-                { maxWidth: '36rem', cols: 1, spacing: 'sm' },
-            ]}>
-                {isLoading && loadingSkeletons}
-                {data && foodElements}
-            </SimpleGrid>
-        </Container>
+        <>
+            <Container>
+                <SimpleGrid cols={3} spacing="md" breakpoints={[
+                    { maxWidth: '62rem', cols: 3, spacing: 'md' },
+                    { maxWidth: '48rem', cols: 2, spacing: 'sm' },
+                    { maxWidth: '36rem', cols: 1, spacing: 'sm' },
+                ]}>
+                    {isLoading && loadingSkeletons}
+                    {data && foodElements}
+                </SimpleGrid>
+            </Container>
+            <FloatingButton />
+        </>
     )
 }
