@@ -64,16 +64,16 @@ export const FoodForm = (props: FoodFormElementProps) => {
     const fillValues = () => {
         setShowModal(false);
         form.setValues({
-            name: data.product.product_name,
-            calories: data.product.nutriments.energy_kcal_value,
-            fat: data.product.nutriments.fat_value,
-            carbohydrates: data.product.nutriments.carbohydrates_value,
-            protein: data.product.nutriments.proteins_value,
-            sodium: data.product.nutriments.sodium_value,
-            sugar: data.product.nutriments.sugars_value,
-            fiber: data.product.nutriments.fiber_value,
-            cholesterol: data.product.nutriments.cholesterol_value,
-            saturatedFat: data.product.nutriments["saturated-fat_value"],
+            name: data.product.product_name || '',
+            calories: data.product.nutriments.energy_kcal_value || 0,
+            fat: data.product.nutriments.fat_value || 0,
+            carbohydrates: data.product.nutriments.carbohydrates_value || 0,
+            protein: data.product.nutriments.proteins_value || 0,
+            sodium: data.product.nutriments.sodium_value || 0,
+            sugar: data.product.nutriments.sugars_value || 0,
+            fiber: data.product.nutriments.fiber_value || 0,
+            cholesterol: data.product.nutriments.cholesterol_value || 0,
+            saturatedFat: data.product.nutriments["saturated-fat_value"] || 0,
         })
     }
     const sendNotification = (status: number, message: string) => {
