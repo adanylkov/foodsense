@@ -19,9 +19,11 @@ namespace FoodSense.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFoodAggregatesAsync()
+        public async Task<IActionResult> GetFoodAggregatesAsync([FromQuery] bool inStorage = false)
         {
-            var foodAggregates = await _foodService.GetFoodAggregatesAsync();
+            var foodAggregates = inStorage ?
+                    await _foodService.GetInStorageFoodAggregateAsync()
+                    : await _foodService.GetFoodAggregatesAsync();
             return Ok(foodAggregates);
         }
         [HttpGet("{barcode}")]

@@ -71,6 +71,11 @@ public class FoodService : IFoodService
         return _foodRepository.GetFoodAggregatesAsync();
     }
 
+    public Task<IEnumerable<FoodAggregate>> GetInStorageFoodAggregateAsync()
+    {
+        return _foodRepository.GetFoodAggregatesByPredicateAsync(f => f.ExpirationInfos.Count > 0);
+    }
+
     public async Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string name, Nutrition nutrition, string image)
     {
         var food = new FoodAggregate {
