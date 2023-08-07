@@ -52,7 +52,7 @@ interface FoodGridProps {
 
 const FoodGrid = (props: FoodGridProps) => {
 
-    const queryKey = props.showOnlyInStorage ? ["food"] : ["food", "storage"];
+    const queryKey = props.showOnlyInStorage ? ["food", "storage"] : ["food"];
     const queryUrl = props.showOnlyInStorage ? `${api_path}/api/Food?inStorage=true` : `${api_path}/api/Food`
 
     const queryClient = useQueryClient();
@@ -68,7 +68,7 @@ const FoodGrid = (props: FoodGridProps) => {
             });
         },
         onSuccess(data, barcode, context) {
-            queryClient.setQueryData<FoodElementProps[]>(["food"], (old) => {
+            queryClient.setQueryData<FoodElementProps[]>(queryKey, (old) => {
                 return old?.filter(f => f.barcode !== barcode);
             });
         },

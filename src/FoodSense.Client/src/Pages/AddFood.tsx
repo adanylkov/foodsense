@@ -1,18 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FoodForm } from '../Components/FoodForm';
 import { BarcodeScanner } from './BarcodeScanner';
 import { useQuery } from '@tanstack/react-query';
 import { api_path } from '../api';
 import { AddExpiration } from './AddExpiration';
 import { Center, Loader } from '@mantine/core';
+import { useParams } from 'react-router-dom';
 
 export const AddFood = () => {
-  const [barcode, setBarcode] = useState('');
+  const [barcodeState, setBarcode] = useState('');
+  const { barcode } = useParams();
 
-  const { isLoading, isError, data } = useQuery(["food", barcode], {
-    enabled: !!barcode,
+  useEffect(() => {
+    if (barcode !== undefined) {
+      setBarcode(barcode);
+    }
+  }, [barcode])
+
+  const { isLoading, isError, data } = useQuery(["food", barcodeState], {
+    enabled: !!barcodeState,
     queryFn: async () => {
-      const response = await fetch(`${api_path}/api/Food/${barcode}`);
+      const response = await fetch(`${api_path}/api/Food/${barcodeState}`);
       if (response.status === 200) {
         return await response.json();
       }
@@ -21,13 +29,13 @@ export const AddFood = () => {
     retry: false,
   });
 
-  if (!isLoading && data !== null && barcode) {
-    return <AddExpiration barcode={barcode} />
+  if (!isLoading && data !== null && barcodeState) {
+    return <AddExpiration barcode={barcodeState} />
   }
-  else if (!isLoading && data === null && barcode) {
-    return <FoodForm barcode={barcode} />
+  else if (!isLoading && data === null && barcodeState) {
+    return <FoodForm barcode={barcodeState} />
   }
-  else if (barcode) {
+  else if (barcodeState) {
     return (
       <Center h={'100vh'}>
         <Loader />

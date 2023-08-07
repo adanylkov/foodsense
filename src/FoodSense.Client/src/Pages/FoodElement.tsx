@@ -1,6 +1,7 @@
 import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader } from '@mantine/core';
 import { api_path } from '../api';
-import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconSalt, IconCube, IconActivityHeartbeat, IconPizza, IconCheese, IconFish } from '@tabler/icons-react';
+import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconSalt, IconCube, IconActivityHeartbeat, IconPizza, IconCheese, IconFish, IconPlus } from '@tabler/icons-react';
+import { useNavigate } from 'react-router-dom';
 
 interface NutritionInfoProps {
     calories: number;
@@ -102,6 +103,7 @@ interface ControlMenuProps {
 }
 
 const ControlMenu = (props: ControlMenuProps) => {
+    const navigate = useNavigate();
     return (
         <Menu>
             <Menu.Target>
@@ -111,6 +113,7 @@ const ControlMenu = (props: ControlMenuProps) => {
             <Menu.Dropdown>
                 <Menu.Label>Controls</Menu.Label>
                 <Menu.Item icon={<IconTrash size={14} color='red' />} onClick={() => props.onDelete(props.barcode)}>Delete food</Menu.Item>
+                <Menu.Item icon={<IconPlus size={14} color='blue' />} onClick={() => navigate(`/add/${props.barcode}`)}>Add to storage</Menu.Item>
             </Menu.Dropdown>
         </Menu>
     )
