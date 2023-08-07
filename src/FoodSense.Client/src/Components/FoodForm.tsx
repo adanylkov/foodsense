@@ -89,8 +89,15 @@ export const FoodForm = (props: FoodFormElementProps) => {
         formData.append('Image', value.image);
         formData.append('Name', value.name);
         formData.append('Barcode', value.barcode.toString());
-        formData.append('Nutrition.Calories', value.calories.toString());
-        formData.append('Nutrition.Fat', value.fat.toString());
+        formData.append('Nutrition.Calories', value.calories.toString().replace('.', ','));
+        formData.append('Nutrition.Fat', value.fat.toString().replace('.', ','));
+        formData.append('Nutrition.Carbohydrates', value.carbohydrates.toString().replace('.', ','));
+        formData.append('Nutrition.Protein', value.protein.toString().replace('.', ','));
+        formData.append('Nutrition.Sodium', value.sodium.toString().replace('.', ','));
+        formData.append('Nutrition.Sugar', value.sugar.toString().replace('.', ','));
+        formData.append('Nutrition.Fiber', value.fiber.toString().replace('.', ','));
+        formData.append('Nutrition.Cholesterol', value.cholesterol.toString().replace('.', ','));
+        formData.append('Nutrition.SaturatedFat', value.saturatedFat.toString().replace('.', ','));
 
         const response = await fetch(`${api_path}/api/Food`, {
             method: 'POST',
