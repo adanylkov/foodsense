@@ -1,6 +1,7 @@
 using FoodSense.Domain.Aggregates;
 using FoodSense.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FoodSense.Infrastructure.Db
 {
@@ -16,7 +17,8 @@ namespace FoodSense.Infrastructure.Db
                 fa.OwnsMany<ExpirationInfo>("_expirationInfos", fi =>
                 {
                     fi.Property(typeof(DateTime), "_expirationDate");
-                    fi.Property(typeof(TimeSpan), "_expirationFromOpened");
+                    fi.Property(typeof(TimeSpan), "_expirationFromOpened")
+                        .HasConversion(new TimeSpanToTicksConverter());
                 });
                 fa.OwnsOne(f => f.Nutrition);
                 fa.Ignore(f => f.ExpirationInfos);

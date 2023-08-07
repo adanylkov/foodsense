@@ -4,6 +4,7 @@ using FoodSense.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodSense.Infrastructure.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    partial class FoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230807204224_RemoveTimeSpanColumn")]
+    partial class RemoveTimeSpanColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace FoodSense.Infrastructure.Migrations
 
                             b1.Property<DateTime>("_expirationDate")
                                 .HasColumnType("datetime2");
-
-                            b1.Property<long>("_expirationFromOpened")
-                                .HasColumnType("bigint");
 
                             b1.HasKey("FoodAggregateBarcode", "Id");
 
