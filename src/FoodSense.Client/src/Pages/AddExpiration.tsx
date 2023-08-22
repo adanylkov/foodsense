@@ -35,7 +35,7 @@ export const AddExpiration = (props: AddExpirationProps) => {
       foodName: '',
       expirationDate: new Date(),
       expirationFromOpened: 0,
-      quantity: 0,
+      quantity: 1,
     },
     validate: {
       expirationFromOpened: (value) => value <= 0 ? 'Expiration time must be greater than 0' : null,
