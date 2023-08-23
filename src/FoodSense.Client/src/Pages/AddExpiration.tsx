@@ -60,7 +60,9 @@ export const AddExpiration = (props: AddExpirationProps) => {
 
   return (
     <form onSubmit={form.onSubmit(async (value) => {
-      await addExpirationMutation.mutateAsync(value);
+      for (let index = 0; index < form.values.quantity; index++) {
+        await addExpirationMutation.mutateAsync(value);
+      }
       notifications.show({
         title: 'Success',
         color: 'green',
