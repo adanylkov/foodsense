@@ -6,6 +6,7 @@ import { api_path } from "../api";
 import { FoodElementProps } from "./FoodElement";
 import { notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
+import { getTotalHoursFromTimeSpan } from "../Helpers/Date";
 
 interface AddExpirationProps {
   barcode: string
@@ -22,10 +23,10 @@ export const AddExpiration = (props: AddExpirationProps) => {
 
   const navigate = useNavigate();
 
-  const { data: foodName, isLoading, error } = useQuery<string>(["food", props.barcode, "name"], async () => {
+  const { data: food, isLoading, error } = useQuery(["food", props.barcode], async () => {
     const response = await fetch(`${api_path}/api/Food/${props.barcode}`)
     if (response.status === 200) {
-      return (await response.json() as FoodElementProps)?.name;
+      return await response.json() as FoodElementProps;
     }
     throw new Error("Food not found");
   });
@@ -34,7 +35,7 @@ export const AddExpiration = (props: AddExpirationProps) => {
     initialValues: {
       foodName: '',
       expirationDate: new Date(),
-      expirationFromOpened: 0,
+      expirationFromOpened: getTotalHoursFromTimeSpan(food?.expirationFromOpened ?? '0.00:00:00'),
       quantity: 1,
     },
     validate: {
@@ -66,15 +67,15 @@ export const AddExpiration = (props: AddExpirationProps) => {
       notifications.show({
         title: 'Success',
         color: 'green',
-        message: `Added expiration for ${foodName}`,
+        message: `Added expiration for ${food?.name}`,
       });
       navigate('/');
     })}>
       <Center>
         <Stack>
-          <Title align="center">{foodName}</Title>
+          <Title align="center">{food?.name}</Title>
           <DateInput label="Expiration date" required {...form.getInputProps('expirationDate')} disabled={isLoading} />
-          <NumberInput label="Expiration Time (Hours After Opening)" required {...form.getInputProps('expirationFromOpened')} disabled={isLoading}  />
+          <NumberInput label="Expiration Time (Hours After Opening)" required {...form.getInputProps('expirationFromOpened')} disabled={isLoading} />
           <NumberInput label="Quantity" required {...form.getInputProps('quantity')} disabled={isLoading} />
           <Button type="submit" loading={addExpirationMutation.isLoading || isLoading}>Add</Button>
         </Stack>

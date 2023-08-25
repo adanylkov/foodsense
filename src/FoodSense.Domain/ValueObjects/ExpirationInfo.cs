@@ -23,4 +23,5 @@ public record class ExpirationInfo
     public bool IsExpiringSoon { get => ExpirationDate - TimeSpan.FromDays(7) < _dateTimeProvider.Now; }
     public DateTime ExpirationDate { get => OpenedAt.HasValue ? OpenedAt.GetValueOrDefault() + _expirationFromOpened : _expirationDate; }
     public DateTime? OpenedAt { get; set; }
+    public TimeSpan ExpirationFromOpened { get => _expirationFromOpened; }
 }

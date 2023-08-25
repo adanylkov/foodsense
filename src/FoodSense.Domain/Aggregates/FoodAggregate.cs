@@ -9,9 +9,11 @@ public class FoodAggregate
     public required string Barcode { get; init; }
     public required Nutrition Nutrition { get; set; }
     public required string Image { get; set; }
+    public TimeSpan ExpirationFromOpened { get; set; }
     public IReadOnlyList<ExpirationInfo> ExpirationInfos => _expirationInfos.AsReadOnly();
     public void AddItem(ExpirationInfo expirationInfo)
     {
+        ExpirationFromOpened = expirationInfo.ExpirationFromOpened;
         _expirationInfos.Add(expirationInfo);
     }
     public void RemoveItem(ExpirationInfo expirationInfo)

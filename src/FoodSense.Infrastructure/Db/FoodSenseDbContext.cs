@@ -14,6 +14,8 @@ namespace FoodSense.Infrastructure.Db
             modelBuilder.Entity<FoodAggregate>(fa =>
             {
                 fa.HasKey(x => x.Barcode);
+                fa.Property(f => f.ExpirationFromOpened)
+                    .HasConversion(new TimeSpanToTicksConverter());
                 fa.OwnsMany<ExpirationInfo>("_expirationInfos", fi =>
                 {
                     fi.Property(typeof(DateTime), "_expirationDate");

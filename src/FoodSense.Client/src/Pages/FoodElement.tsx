@@ -124,6 +124,7 @@ export interface FoodElementProps {
     isLoading: boolean;
     name: string;
     imageUrl: string;
+    expirationFromOpened: string;
     nutrition: {
         calories: number;
         fat: number;
