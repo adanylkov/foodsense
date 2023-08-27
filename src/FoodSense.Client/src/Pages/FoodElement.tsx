@@ -1,4 +1,4 @@
-import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader } from '@mantine/core';
+import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader, Stack, List } from '@mantine/core';
 import { api_path } from '../api';
 import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconSalt, IconCube, IconActivityHeartbeat, IconPizza, IconCheese, IconFish, IconPlus } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,32 @@ interface NutritionInfoProps {
     transFat: number,
     unsaturatedFat: number,
     potassium: number,
+}
+
+const ExpirationInfo = (props: {expirations: ExpirationInfo[]}) => {
+    const itemsNumber = props.expirations.length;
+    const isExpired = props.expirations.some(x => x.isExpired);
+    const freshUntilInfos = props.expirations.map(x => <List.Item> {new Date(x.expirationDate).toLocaleDateString()} ({x.daysToExpiration} days)</List.Item>);
+
+    return (
+        <>
+            <Accordion variant='filled' radius={'md'}>
+                <Accordion.Item value="expiration">
+                    <Accordion.Control>
+                        <Group position='apart'>
+                            <Text>Expiration info</Text>
+                            {isExpired ? <Badge color='red'>Stale</Badge> : <Badge color='green'>Fresh</Badge>}
+                        </Group>
+                    </Accordion.Control>
+                    <Accordion.Panel>
+                        <Text>Total items: {itemsNumber}</Text>
+                        <List>
+                        {freshUntilInfos}
+                        </List>
+                    </Accordion.Panel>
+                </Accordion.Item>
+            </Accordion>
+        </>);
 }
 
 const NutritionInfo = (props: NutritionInfoProps) => {
@@ -118,13 +144,21 @@ const ControlMenu = (props: ControlMenuProps) => {
         </Menu>
     )
 }
+
+export interface ExpirationInfo {
+    daysToExpiration: number;
+    isExpired: boolean;
+    isExpiringSoon: boolean;
+    expirationDate: string;
+    openedAt: string | null;
+    expirationFromOpened: Date;
+}
 export interface FoodElementProps {
     barcode: string;
     onDelete: (barcode: string) => void;
     isLoading: boolean;
     name: string;
     imageUrl: string;
-    expirationFromOpened: string;
     nutrition: {
         calories: number;
         fat: number;
@@ -139,10 +173,12 @@ export interface FoodElementProps {
         unsaturatedFat: number,
         potassium: number,
     }
+    expirationFromOpened: string;
+    expirationInfos: ExpirationInfo[];
+    showExpirationInfo: boolean;
 }
 
 export const FoodElement = (props: FoodElementProps) => {
-
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
@@ -154,10 +190,11 @@ export const FoodElement = (props: FoodElementProps) => {
 
             <Group position="apart" mt="md" mb="xs">
                 <Text weight={500}>{props.name}</Text>
-                { props.isLoading ? <Loader size="md" /> : <ControlMenu onDelete={props.onDelete} barcode={props.barcode} />} 
+                {props.isLoading ? <Loader size="md" /> : <ControlMenu onDelete={props.onDelete} barcode={props.barcode} />}
             </Group>
 
             <NutritionInfo {...props.nutrition} />
+            {props.showExpirationInfo && <ExpirationInfo expirations={props.expirationInfos} />}
         </Card>
     );
 }

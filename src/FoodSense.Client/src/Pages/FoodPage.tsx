@@ -1,4 +1,4 @@
-import { Center, Container, Paper, SimpleGrid, Skeleton, Tabs, Text } from "@mantine/core"
+import { Container, Paper, SimpleGrid, Skeleton, Tabs } from "@mantine/core"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { FoodElement, FoodElementProps } from "./FoodElement";
 import { api_path } from "../api";
@@ -80,7 +80,10 @@ const FoodGrid = (props: FoodGridProps) => {
         nutrition={f.nutrition}
         barcode={f.barcode}
         onDelete={deleteMutation.mutate}
-        isLoading={isLoading} />);
+        isLoading={isLoading}
+        expirationFromOpened={f.expirationFromOpened}
+        expirationInfos={f.expirationInfos}
+        showExpirationInfo={props.showOnlyInStorage ?? false}/>);
 
     return (
         <Container>
