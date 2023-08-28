@@ -102,5 +102,38 @@ namespace FoodSense.WebApi.Controllers
             await _foodService.AddFoodItemAsync(barcode, timespan, request.ExpirationDate);
             return Ok();
         }
+        [HttpPut("{barcode}/items/")]
+        public async Task<IActionResult> MarkAsOpened(string barcode, [FromBody] DateTime Date)
+        {
+            var foodAggregate = await _foodService.GetFoodAggregateAsync(barcode);
+            if (foodAggregate == null)
+            {
+                return NotFound($"Food aggregate with barcode {barcode} not found.");
+            }
+            var expirationInfo = foodAggregate.ExpirationInfos.FirstOrDefault(e => e.ExpirationDate == Date);
+            if (expirationInfo == null)
+            {
+                return NotFound($"Food item with expiration date {Date} not found.");
+            }
+            var date = await _foodService.MarkAsOpenedAsync(barcode, Date);
+            return Ok(date);
+        }
+
+        [HttpDelete("{barcode}/items/")]
+        public async Task<IActionResult> DeleteExpirationInfo(string barcode, [FromBody] DateTime Date)
+        {
+            var foodAggregate = await _foodService.GetFoodAggregateAsync(barcode);
+            if (foodAggregate == null)
+            {
+                return NotFound($"Food aggregate with barcode {barcode} not found.");
+            }
+            var expirationInfo = foodAggregate.ExpirationInfos.FirstOrDefault(e => e.ExpirationDate == Date);
+            if (expirationInfo == null)
+            {
+                return NotFound($"Food item with expiration date {Date} not found.");
+            }
+            await _foodService.DeleteExpiration(barcode, Date);
+            return Ok();
+        }
     }
 }

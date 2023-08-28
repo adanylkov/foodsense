@@ -76,7 +76,7 @@ const FoodGrid = (props: FoodGridProps) => {
 
 
     const foodElements = data?.map((f: any) => <FoodElement key={f.barcode} name={f.name}
-        imageUrl={f.image}
+        image={f.image}
         nutrition={f.nutrition}
         barcode={f.barcode}
         onDelete={deleteMutation.mutate}

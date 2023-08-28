@@ -1,4 +1,6 @@
+using System.Net.Http.Headers;
 using FoodSense.Domain;
+using FoodSense.Domain.Aggregates;
 using FoodSense.Domain.ValueObjects;
 
 namespace FoodSense.Tests;
@@ -51,6 +53,11 @@ public class ExpirationInfoTests
         var productExpirationDate = DateTime.Now.AddDays(7).AddHours(1);
         var expirationInfo = new ExpirationInfo(TimeSpan.Zero, productExpirationDate, dateTimeProvider);
         Assert.False(expirationInfo.IsExpiringSoon);
+    }
+    [Fact]
+    public void ExpirationInfoIsOpenedIfGivenCorrectDate()
+    {
+        Assert.Fail("Not implemented");
     }
 }
 

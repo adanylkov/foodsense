@@ -13,4 +13,6 @@ public interface IFoodService
     Task<IEnumerable<FoodAggregate>> GetExpiredFoodAggregateAsync();
     Task<IEnumerable<FoodAggregate>> GetInStorageFoodAggregateAsync();
     Task AddFoodItemAsync(string barcode, TimeSpan expirationFromOpened, DateTime expirationDate);
+    Task<DateTime> MarkAsOpenedAsync(string barcode, DateTime date);
+    Task DeleteExpiration(string barcode, DateTime date);
 }

@@ -1,7 +1,8 @@
 import { Card, Image, Text, Badge, Group, Accordion, Flex, Menu, ActionIcon, Loader, Stack, List } from '@mantine/core';
 import { api_path } from '../api';
 import { IconFlame, IconDroplet, IconGrowth, IconMeat, IconSettings, IconMessageCircle, IconPhoto, IconSearch, IconArrowsLeftRight, IconTrash, IconSalt, IconCube, IconActivityHeartbeat, IconPizza, IconCheese, IconFish, IconPlus } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FreshBadge } from '../Components/FreshBadge';
 
 interface NutritionInfoProps {
     calories: number;
@@ -18,10 +19,11 @@ interface NutritionInfoProps {
     potassium: number,
 }
 
-const ExpirationInfo = (props: {expirations: ExpirationInfo[]}) => {
+const ExpirationInfo = (props: { expirations: ExpirationInfo[] }) => {
     const itemsNumber = props.expirations.length;
     const isExpired = props.expirations.some(x => x.isExpired);
     const freshUntilInfos = props.expirations.map(x => <List.Item> {new Date(x.expirationDate).toLocaleDateString()} ({x.daysToExpiration} days)</List.Item>);
+    const fastestToSpoil = props.expirations.sort((a, b) => a.daysToExpiration - b.daysToExpiration).at(0)?.daysToExpiration;
 
     return (
         <>
@@ -30,13 +32,13 @@ const ExpirationInfo = (props: {expirations: ExpirationInfo[]}) => {
                     <Accordion.Control>
                         <Group position='apart'>
                             <Text>Expiration info</Text>
-                            {isExpired ? <Badge color='red'>Stale</Badge> : <Badge color='green'>Fresh</Badge>}
+                            <FreshBadge daysToExpiration={fastestToSpoil} />
                         </Group>
                     </Accordion.Control>
                     <Accordion.Panel>
                         <Text>Total items: {itemsNumber}</Text>
                         <List>
-                        {freshUntilInfos}
+                            {freshUntilInfos}
                         </List>
                     </Accordion.Panel>
                 </Accordion.Item>
@@ -158,7 +160,7 @@ export interface FoodElementProps {
     onDelete: (barcode: string) => void;
     isLoading: boolean;
     name: string;
-    imageUrl: string;
+    image: string;
     nutrition: {
         calories: number;
         fat: number;
@@ -182,10 +184,12 @@ export const FoodElement = (props: FoodElementProps) => {
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Card.Section>
-                <Image
-                    src={`${api_path}/images/${props.imageUrl}`}
-                    height={200}
-                />
+                <Link to={`/expiration/${props.barcode}`}>
+                    <Image
+                        src={`${api_path}/images/${props.image}`}
+                        height={200}
+                    />
+                </Link>
             </Card.Section>
 
             <Group position="apart" mt="md" mb="xs">

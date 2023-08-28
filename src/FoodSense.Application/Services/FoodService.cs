@@ -38,6 +38,22 @@ public class FoodService : IFoodService
         return food;
     }
 
+    public async Task DeleteExpiration(string barcode, DateTime date)
+    {
+        var foodAggregate = await _foodRepository.GetFoodAggregateAsync(barcode);
+        if (foodAggregate == null)
+        {
+            throw new ArgumentException($"Food aggregate with barcode {barcode} not found.");
+        }
+        var expirationInfo = foodAggregate.ExpirationInfos.FirstOrDefault(e => e.ExpirationDate == date);
+        if (expirationInfo == null)
+        {
+            throw new ArgumentException($"Food item with expiration date {date} not found.");
+        }
+        foodAggregate.RemoveItem(expirationInfo);
+        await _foodRepository.SaveChangesAsync();
+    }
+
     public async Task DeleteFoodAggregateAsync(string barcode)
     {
         await _foodRepository.DeleteFoodAggregateAsync(barcode);
@@ -76,6 +92,20 @@ public class FoodService : IFoodService
         return _foodRepository.GetFoodAggregatesByPredicateAsync(f => f.ExpirationInfos.Count > 0);
     }
 
+    public async Task<DateTime> MarkAsOpenedAsync(string barcode, DateTime date)
+    {
+        var foodAggregate = await _foodRepository.GetFoodAggregateAsync(barcode);
+        var expirationInfo = foodAggregate.ExpirationInfos.FirstOrDefault(e => e.ExpirationDate == date);
+        if (expirationInfo == null)
+        {
+            throw new ArgumentException($"Food item with expiration date {date} not found.");
+        }
+        var newDate = _dateTimeProvider.Now;
+        expirationInfo.OpenedAt = newDate;
+        await _foodRepository.SaveChangesAsync();
+        return newDate;
+    }
+
     public async Task<FoodAggregate?> UpdateFoodAggregateAsync(string barcode, string name, Nutrition nutrition, string image)
     {
         var food = new FoodAggregate {
@@ -96,4 +126,5 @@ public class FoodService : IFoodService
 
         return food;
     }
+
 }
