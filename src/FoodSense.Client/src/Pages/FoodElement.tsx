@@ -22,7 +22,7 @@ interface NutritionInfoProps {
 const ExpirationInfo = (props: { expirations: ExpirationInfo[] }) => {
     const itemsNumber = props.expirations.length;
     const isExpired = props.expirations.some(x => x.isExpired);
-    const freshUntilInfos = props.expirations.map(x => <List.Item> {new Date(x.expirationDate).toLocaleDateString()} ({x.daysToExpiration} days)</List.Item>);
+    const freshUntilInfos = props.expirations.map((x, i) => <List.Item key={`${x.expirationDate} ${i}`}> {new Date(x.expirationDate).toLocaleDateString()} ({x.daysToExpiration} days)</List.Item>);
     const fastestToSpoil = props.expirations.sort((a, b) => a.daysToExpiration - b.daysToExpiration).at(0)?.daysToExpiration;
 
     return (
