@@ -59,7 +59,11 @@ const FoodGrid = (props: FoodGridProps) => {
     const { data, error, isLoading } = useQuery<FoodElementProps[]>(queryKey, async () => {
         const response = await fetch(queryUrl)
         return await response.json();
-    });
+    },
+    {
+        staleTime: 1000 * 60
+    }
+    );
 
     const deleteMutation = useMutation({
         mutationFn: async (barcode: string) => {
