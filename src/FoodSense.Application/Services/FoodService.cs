@@ -95,6 +95,10 @@ public class FoodService : IFoodService
     public async Task<DateTime> MarkAsOpenedAsync(string barcode, DateTime date)
     {
         var foodAggregate = await _foodRepository.GetFoodAggregateAsync(barcode);
+        if (foodAggregate == null)
+        {
+            throw new ArgumentException($"Food aggregate with barcode {barcode} not found.");
+        }
         var expirationInfo = foodAggregate.ExpirationInfos.FirstOrDefault(e => e.ExpirationDate == date);
         if (expirationInfo == null)
         {

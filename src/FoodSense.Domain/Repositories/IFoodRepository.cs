@@ -4,7 +4,7 @@ namespace FoodSense.Domain;
 public interface IFoodRepository
 {
     Task<IEnumerable<FoodAggregate>> GetFoodAggregatesAsync();
-    Task<FoodAggregate> GetFoodAggregateAsync(string barcode);
+    Task<FoodAggregate?> GetFoodAggregateAsync(string barcode);
     Task AddFoodAggregateAsync(FoodAggregate foodAggregate);
     Task UpdateFoodAggregateAsync(FoodAggregate foodAggregate);
     Task DeleteFoodAggregateAsync(string barcode);

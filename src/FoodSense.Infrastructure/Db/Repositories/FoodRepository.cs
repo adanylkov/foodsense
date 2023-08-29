@@ -24,7 +24,7 @@ public class FoodRepository : IFoodRepository
         _dbContext.FoodAggregates.Remove(foodAggregate);
     }
 
-    public async Task<FoodAggregate> GetFoodAggregateAsync(string barcode)
+    public async Task<FoodAggregate?> GetFoodAggregateAsync(string barcode)
     {
         return await _dbContext.FoodAggregates.FindAsync(barcode) ??
             throw new ArgumentException($"FoodAggregate with barcode {barcode} does not exist");
