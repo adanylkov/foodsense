@@ -1,7 +1,8 @@
-using System.Net.Http.Headers;
 using FoodSense.Domain;
 using FoodSense.Domain.Aggregates;
 using FoodSense.Domain.ValueObjects;
+using FoodSense.Application;
+using Moq;
 
 namespace FoodSense.Tests;
 
@@ -55,10 +56,35 @@ public class ExpirationInfoTests
         Assert.False(expirationInfo.IsExpiringSoon);
     }
     [Fact]
-    public void ExpirationInfoIsOpenedIfGivenCorrectDate()
+    public async Task ExpirationInfoIsOpenedIfGivenCorrectDate()
     {
-        Assert.Fail("Not implemented");
+        var dateTimeProvider = new DateTimeProvider(DateTime.Now);
+        var mockRepository = new Mock<IFoodRepository>();
+        var barcode = "123456789";
+        var testAggregate = new FoodAggregate
+        {
+            Name = "Test",
+            Barcode = barcode,
+            Image = "https://www.test.com/test.jpg",
+            Nutrition = new Nutrition(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+        };
+        var expirationDate = dateTimeProvider.Now.AddDays(5);
+        var openedExpiration = TimeSpan.FromHours(2);
+        var expectedExpiration = dateTimeProvider.Now + openedExpiration;
+
+        var expirationInfo = new ExpirationInfo(openedExpiration, expirationDate, dateTimeProvider);
+        testAggregate.AddItem(expirationInfo);
+
+        mockRepository.Setup(r => r.GetFoodAggregateAsync(barcode)).ReturnsAsync(testAggregate);
+        mockRepository.Setup(r => r.SaveChangesAsync());
+
+        var sut = new FoodService(mockRepository.Object, dateTimeProvider);
+        await sut.MarkAsOpenedAsync(barcode, expirationDate);
+
+        Assert.NotNull(expirationInfo.OpenedAt);
+        Assert.Equal(expectedExpiration, expirationInfo.ExpirationDate);
     }
+
 }
 
 internal class DateTimeProvider : IDateTimeProvider
